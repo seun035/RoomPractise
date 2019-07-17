@@ -10,6 +10,8 @@ import com.oluwaseun.liadi.cantactroompractise.database.DatabaseLab;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.View;
@@ -19,24 +21,26 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     private AppDatabase db;
     private static final String TAG = "MainActivity";
+    private FragmentManager fm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        fm = getSupportFragmentManager();
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                DialogFragment dialog = new MainDialog();
+                dialog.show(fm , "main-dialog");
             }
         });
-        db = DatabaseLab.get(getApplicationContext()).getRoomInstance();
-        long result = db.contactDao().createContact(new Contact("Oluwaseun","070360576","liadioluwaseun@gmail.com"));
-        Log.i(TAG, "onCreate: "+ result);
+//        db = DatabaseLab.get(getApplicationContext()).getRoomInstance();
+//        long result = db.contactDao().createContact(new Contact("Oluwaseun","070360576","liadioluwaseun@gmail.com"));
+//        Log.i(TAG, "onCreate: "+ result);
     }
 
     @Override
