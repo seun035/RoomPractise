@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.oluwaseun.liadi.cantactroompractise.dagger.AppDatabaseComponent;
+import com.oluwaseun.liadi.cantactroompractise.dagger.AppDatabaseModule;
+import com.oluwaseun.liadi.cantactroompractise.dagger.DaggerAppDatabaseComponent;
 import com.oluwaseun.liadi.cantactroompractise.database.AppDatabase;
 import com.oluwaseun.liadi.cantactroompractise.database.Contact;
 import com.oluwaseun.liadi.cantactroompractise.database.DatabaseLab;
@@ -18,10 +21,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
-    private AppDatabase db;
+    //private AppDatabase db;
+    private AppDatabaseComponent appDatabaseComponent;
     private static final String TAG = "MainActivity";
     private FragmentManager fm;
+
+    @Inject
+    AppDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         fm = getSupportFragmentManager();
         setSupportActionBar(toolbar);
-
+        appDatabaseComponent = DaggerAppDatabaseComponent.builder().appDatabaseModule(new AppDatabaseModule(getApplicationContext())).build();
+        appDatabaseComponent.inject(this);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 //        db = DatabaseLab.get(getApplicationContext()).getRoomInstance();
 //        long result = db.contactDao().createContact(new Contact("Oluwaseun","070360576","liadioluwaseun@gmail.com"));
 //        Log.i(TAG, "onCreate: "+ result);
+        long result = db.contactDao().createContact(new Contact("Ismail","070360576","liadiismail@gmail.com"));
+        Log.i(TAG, "onCreate: "+ result);
+
     }
 
     @Override

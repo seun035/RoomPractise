@@ -2,6 +2,7 @@ package com.oluwaseun.liadi.cantactroompractise.database;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,5 +25,5 @@ public interface ContactDao {
 
 
     @Query("SELECT * FROM contacts")
-    public List<Contact> getAllContact();
+    public LiveData<List<Contact>> getAllContact();
 }
